@@ -18,13 +18,13 @@ func NewAuthRepo(db *sql.DB) *AuthRepo {
 	}
 }
 
-func (ar *AuthRepo) Get(username string) (interface{}, error) {
+func (ar *AuthRepo) Get(userid string) (interface{}, error) {
 	var user models.User
 
 	query := fmt.Sprintf(
-		"SELECT * FROM %s WHERE username='%s'",
+		"SELECT * FROM %s WHERE userid='%s'",
 		ar.tablename,
-		username,
+		userid,
 	)
 	err := ar.db.QueryRow(query).Scan(&user.ID, &user.UserID)
 	if err != nil {
@@ -37,7 +37,7 @@ func (ar *AuthRepo) Get(username string) (interface{}, error) {
 func (ar *AuthRepo) Insert(data interface{}) error {
 	user := data.(models.User)
 	query := fmt.Sprintf(
-		`INSERT INTO %s (authid)
+		`INSERT INTO %s (userid)
               VALUES ('%s')`,
 			  ar.tablename,
 			  user.UserID,
@@ -66,15 +66,14 @@ func (ar *AuthRepo) Delete(userid string) error {
 	return nil
 }
 
-func (ar *AuthRepo) Modify(username string, modification interface{}) error {
+func (ar *AuthRepo) Modify(userid string, modification interface{}) error {
 	user := modification.(models.User)
 	query := fmt.Sprintf(
 		`UPDATE %s
-				SET %s='%s'
-				WHERE username='%s'`,
+				SET userid='%s'
+				WHERE userid='%s'`,
 				ar.tablename,
-				user.UserID, user.UserID,
-				username,
+				user.UserID, userid,
 	)
 
 	_, err := ar.db.Exec(query)
