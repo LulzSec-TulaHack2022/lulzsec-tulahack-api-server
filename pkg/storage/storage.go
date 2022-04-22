@@ -6,14 +6,11 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
-	"tulahackTest/pkg/storage/repos"
 )
 
 type Storage struct {
 	db       *sql.DB
 	config   *Config
-
-	authrepo Repo
 }
 
 func NewStorage() *Storage {
@@ -26,8 +23,6 @@ func NewStorage() *Storage {
 		panic(err)
 		return nil
 	}
-
-	s.authrepo = repos.NewAuthRepo(s.db)
 
 	return s
 }
@@ -66,8 +61,3 @@ func (s *Storage) Close() error {
 	return nil
 }
 
-func (s *Storage) Trunc() {
-	query := "TRUNCATE TABLE auth RESTART IDENTITY CASCADE"
-	_, err := s.db.Exec(query)
-	if err != nil {}
-}

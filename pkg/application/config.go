@@ -24,8 +24,7 @@ func (app *Application) configureRouter() {
 	router := http.NewServeMux()
 
 	// Маршруты API
-	router.HandleFunc("/adduser", AddUser(app))
-	router.HandleFunc("/senduser", SendUser(app))
+	router.HandleFunc("/getflower", GetFlower(app))
 
 	app.router = router
 }

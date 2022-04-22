@@ -37,14 +37,8 @@ func (app *Application) Router() *http.ServeMux {
 	return app.router
 }
 
-func (app *Application) DB(repo string) storage.Repo {
-	switch repo {
-	case "auth":
-		return app.storage.Authrepo()
-
-	default:
-		return nil
-	}
+func (app *Application) DB() *storage.Storage {
+	return app.storage
 }
 
 func (app *Application) Info(content ...interface{}) {
