@@ -12,11 +12,13 @@ import (
 
 type Config struct {
 	Addr string
+	Parameters []string
 }
 
 func NewConfig() *Config {
 	return &Config{
 		Addr: fmt.Sprintf(":%v", os.Getenv("PORT")),
+		Parameters: []string{"low", "medium", "high", "any"},
 	}
 }
 
@@ -25,6 +27,7 @@ func (app *Application) configureRouter() {
 
 	// Маршруты API
 	router.HandleFunc("/getflowers", GetFlower(app))
+	router.HandleFunc("/getcurrentweather", GetCurrentWeather(app))
 
 	app.router = router
 }
