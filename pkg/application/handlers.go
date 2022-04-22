@@ -37,10 +37,10 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
-		weather := map[string]string{
-			"temperature": app.Config().Parameters[rand.Intn(4)],
-			"humidity": app.Config().Parameters[rand.Intn(4)],
-			"illumination": app.Config().Parameters[rand.Intn(4)],
+		weather := models.Weather{
+			Temperature: app.Config().Parameters[rand.Intn(4)],
+			Humidity: app.Config().Parameters[rand.Intn(4)],
+			Illumination: rand.Intn(101),
 		}
 
 		data, err := json.Marshal(weather)
