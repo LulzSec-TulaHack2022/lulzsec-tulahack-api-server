@@ -10,17 +10,15 @@ func GetFlower(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
-		var flower models.Flower
+		var flowers []models.Flower
 
-		name := r.URL.Query().Get("name")
-
-		flower, err := app.DB().GetFlowerInfo(name)
+		flowers, err := app.DB().GetFlowers()
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to find flower in catalog", http.StatusBadRequest)
 		}
 
-		data, err := json.Marshal(flower)
+		data, err := json.Marshal(flowers)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to marshal data", http.StatusInternalServerError)

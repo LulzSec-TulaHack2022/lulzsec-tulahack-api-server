@@ -1,27 +1,38 @@
 package storage
 
 import (
-	"fmt"
 	"tulahackTest/models"
 )
 
-func (s *Storage) GetFlowerInfo(name string) (models.Flower, error) {
-	var flower models.Flower
+func (s *Storage) GetFlowers() ([]models.Flower, error) {
+	var flowers []models.Flower
 
-	query := fmt.Sprintf(
-		"SELECT * FROM flowers WHERE name='%s'",
-		name,
-	)
-	err := s.db.QueryRow(query).Scan(&flower.ID,
-									  &flower.Name,
-									  &flower.Description,
-									  &flower.Temperature,
-									  &flower.Humidity,
-									  &flower.Illumination,
-	)
-	if err != nil {
-		return models.Flower{}, err
+	query := "SELECT * FROM flowers"
+
+	rows, err := s.db.Query(query)
+
+	for rows.Next() {
+		var flower models.Flower
+
+		err := rows.Scan(
+			&flower.ID,
+			&flower.Name,
+			&flower.Description,
+			&flower.Temperature,
+			&flower.Humidity,
+			&flower.Illumination,
+		)
+
+		if err != nil {
+			return []models.Flower{}, nil
+		}
+
+		flowers = append(flowers, flower)
 	}
 
-	return flower, nil
+	if err != nil {
+		return []models.Flower{}, err
+	}
+
+	return flowers, nil
 }
