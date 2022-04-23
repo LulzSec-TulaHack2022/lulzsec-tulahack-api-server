@@ -67,13 +67,17 @@ func AddUser(app *Application) http.HandlerFunc {
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to get data", http.StatusBadRequest)
+			return
 		}
 
 		err = app.DB().AddUser(user)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to create new user", http.StatusInternalServerError)
+			return
 		}
+
+		w.WriteHeader(http.StatusOK)
 	}
 }
 
@@ -87,13 +91,17 @@ func AddFlower(app *Application) http.HandlerFunc {
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to parse flower data", http.StatusBadRequest)
+			return
 		}
 
 		err = app.DB().AddFlower(flower)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to create new flower", http.StatusInternalServerError)
+			return
 		}
+
+		w.WriteHeader(http.StatusOK)
 	}
 }
 
@@ -107,7 +115,10 @@ func DeleteFlower(app *Application) http.HandlerFunc {
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to delete flower", http.StatusBadRequest)
+			return
 		}
+
+		w.WriteHeader(http.StatusOK)
 	}
 }
 
