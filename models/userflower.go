@@ -1,10 +1,11 @@
 package models
 
 type UserFlower struct {
-	ID        int `json:"id,omitempty"`
-	CatalogID int `json:"catalog_id"`
-	FlowerID  string `json:"flower_id"`
-	OwnerID   string `json:"owner_id"`
+	ID        int    `json:"-"`
+	CatalogID int    `json:"-"`
+	FlowerID  string `json:"id"`
+	OwnerID   string `json:"-"`
 	Name      string `json:"name"`
-	Alive     bool `json:"alive,omitempty"`
+	Alive     bool   `json:"alive"`
+	NeedWater bool   `json:"need_water"`
 }

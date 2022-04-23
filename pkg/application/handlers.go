@@ -117,52 +117,16 @@ func GetAllUserFlowers(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
-		//userid := r.URL.Query().Get("owner_id")
-		//
-		//flowers, err := app.DB().GetAllUserFlowers(userid)
-		//if err != nil {
-		//	app.Error(err)
-		//	http.Error(w, "Unable to get list of flowers", http.StatusBadRequest)
-		//	return
-		//}
-		//
-		//data, err := json.Marshal(flowers)
-		//if err != nil {
-		//	app.Error(err)
-		//	http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
-		//	return
-		//}
-		//
-		//_, err = w.Write(data)
-		//if err != nil {
-		//	app.Error(err)
-		//	http.Error(w, "Unable to send data", http.StatusInternalServerError)
-		//	return
-		//}
+		userid := r.URL.Query().Get("owner_id")
 
-		data, err := json.Marshal([]interface{}{map[string]interface{}{
-				"id": 5,
-				"name": "Анатолий",
-				"nameNomenclature": "Петуния",
-				"needWater": true,
-				"alive": true,
-			},
-			map[string]interface{}{
-				"id": 4,
-				"name": "Зинаида",
-				"nameNomenclature": "Петуния",
-				"needWater": true,
-				"alive": true,
-			},
-			map[string]interface{}{
-				"id": 3,
-				"name": "Антон",
-				"nameNomenclature": "Петуния",
-				"needWater": true,
-				"alive": true,
-			},
-		})
+		flowers, err := app.DB().GetAllUserFlowers(userid)
+		if err != nil {
+			app.Error(err)
+			http.Error(w, "Unable to get list of flowers", http.StatusBadRequest)
+			return
+		}
 
+		data, err := json.Marshal(flowers)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
@@ -175,6 +139,42 @@ func GetAllUserFlowers(app *Application) http.HandlerFunc {
 			http.Error(w, "Unable to send data", http.StatusInternalServerError)
 			return
 		}
+
+		//data, err := json.Marshal([]interface{}{map[string]interface{}{
+		//		"id": 5,
+		//		"name": "Анатолий",
+		//		"nameNomenclature": "Петуния",
+		//		"needWater": true,
+		//		"alive": true,
+		//	},
+		//	map[string]interface{}{
+		//		"id": 4,
+		//		"name": "Зинаида",
+		//		"nameNomenclature": "Петуния",
+		//		"needWater": true,
+		//		"alive": true,
+		//	},
+		//	map[string]interface{}{
+		//		"id": 3,
+		//		"name": "Антон",
+		//		"nameNomenclature": "Петуния",
+		//		"needWater": true,
+		//		"alive": true,
+		//	},
+		//})
+		//
+		//if err != nil {
+		//	app.Error(err)
+		//	http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
+		//	return
+		//}
+		//
+		//_, err = w.Write(data)
+		//if err != nil {
+		//	app.Error(err)
+		//	http.Error(w, "Unable to send data", http.StatusInternalServerError)
+		//	return
+		//}
 	}
 }
 
