@@ -121,7 +121,7 @@ func (s *Storage) Dead(flowerid string) error {
 func (s *Storage) Watered(flowerid string, value bool) error {
 	query := fmt.Sprintf(
 		`UPDATE user_flowers
-				SET need_water='%v'
+				SET need_water=%v
 				WHERE flower_id='%s'`,
 		value,
 		flowerid,
