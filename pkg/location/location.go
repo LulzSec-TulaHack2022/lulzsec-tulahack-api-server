@@ -4,7 +4,7 @@ import (
 	owm "github.com/briandowns/openweathermap"
 )
 
-func GetWeather(lat, long float64, key string) (interface{}, error) {
+func GetWeather(lat, long float64, key string) (*owm.CurrentWeatherData, error) {
 	w, err := owm.NewCurrent("C", "RU", key)
 	if err != nil {
 		return nil, err

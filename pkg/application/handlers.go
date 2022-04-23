@@ -2,6 +2,7 @@ package application
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
 	"tulahackTest/models"
 	"tulahackTest/pkg/location"
@@ -37,20 +38,19 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
-		//weather := models.Weather{
-		//	Temperature: app.Config().Parameters[rand.Intn(4)],
-		//	Humidity: app.Config().Parameters[rand.Intn(4)],
-		//	Illumination: rand.Intn(101),
-		//}
-
-		weather, err := location.GetWeather(54.204838, 37.618492, app.Config().OWMApiKey)
+		we, err := location.GetWeather(54.204838, 37.618492, app.Config().OWMApiKey)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to get weather", http.StatusInternalServerError)
 			return
 		}
 
-		app.Info(weather)
+		weather := models.Weather{
+			City: we.Name,
+			Temperature: we.Main.Temp,
+			Humidity: we.Main.Humidity,
+			Illumination: rand.Intn(101),
+		}
 
 		data, err := json.Marshal(weather)
 		if err != nil {
