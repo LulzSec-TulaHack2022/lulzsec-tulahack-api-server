@@ -30,7 +30,7 @@ func (app *Application) configureRouter() {
 	// Маршруты API
 	router.HandleFunc("/catalog", Catalog(app))
 	router.HandleFunc("/currentweather", CurrentWeather(app))
-	router.HandleFunc("/flower", Flower(app))
+	router.HandleFunc("/flowers", Flower(app))
 	router.HandleFunc("/dead", Dead(app))
 	router.HandleFunc("/watered", Watered(app))
 	//router.HandleFunc("/getuserflower", GetUserFlower(app))
