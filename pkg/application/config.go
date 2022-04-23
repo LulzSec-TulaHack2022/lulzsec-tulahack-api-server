@@ -29,8 +29,6 @@ func (app *Application) configureRouter() {
 	router.HandleFunc("/getcatalog", GetCatalog(app))
 	router.HandleFunc("/getcurrentweather", GetCurrentWeather(app))
 	router.HandleFunc("/adduser", AddUser(app))
-	router.HandleFunc("/deleteuser", DeleteUser(app))
-	router.HandleFunc("/modifyuser", ModifyUser(app))
 	router.HandleFunc("/addflower", AddFlower(app))
 	router.HandleFunc("/deleteflower", DeleteFlower(app))
 
