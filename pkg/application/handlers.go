@@ -80,6 +80,20 @@ func AddUser(app *Application) http.HandlerFunc {
 func AddFlower(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
+
+		var flower models.UserFlower
+
+		err := json.NewDecoder(r.Body).Decode(&flower)
+		if err != nil {
+			app.Error(err)
+			http.Error(w, "Unable to parse flower data", http.StatusBadRequest)
+		}
+
+		err = app.DB().AddFlower(flower)
+		if err != nil {
+			app.Error(err)
+			http.Error(w, "Unable to create new flower", http.StatusInternalServerError)
+		}
 	}
 }
 
