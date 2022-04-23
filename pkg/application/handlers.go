@@ -44,44 +44,44 @@ func CurrentWeather(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
-		if r.Method == http.MethodGet {
-			var loc map[string]float64
-
-			err := json.NewDecoder(r.Body).Decode(&loc)
-			if err != nil {
-				app.Error(err)
-				http.Error(w, "Unable to parse data", http.StatusBadRequest)
-				return
-			}
-
-			we, err := location.GetCurrentWeather(loc["latitude"], loc["longitude"], app.Config().OWMApiKey)
-			if err != nil {
-				app.Error(err)
-				http.Error(w, "Unable to get weather", http.StatusInternalServerError)
-				return
-			}
-
-			weather := models.Weather{
-				City: we.Name,
-				Temperature: we.Main.Temp,
-				Humidity: we.Main.Humidity,
-				Illumination: rand.Intn(25),
-			}
-
-			data, err := json.Marshal(weather)
-			if err != nil {
-				app.Error(err)
-				http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
-				return
-			}
-
-			_, err = w.Write(data)
-			if err != nil {
-				app.Error(err)
-				http.Error(w, "Unable to send data", http.StatusInternalServerError)
-				return
-			}
-		}
+		//if r.Method == http.MethodGet {
+		//	var loc map[string]float64
+		//
+		//	err := json.NewDecoder(r.Body).Decode(&loc)
+		//	if err != nil {
+		//		app.Error(err)
+		//		http.Error(w, "Unable to parse data", http.StatusBadRequest)
+		//		return
+		//	}
+		//
+		//	we, err := location.GetCurrentWeather(loc["latitude"], loc["longitude"], app.Config().OWMApiKey)
+		//	if err != nil {
+		//		app.Error(err)
+		//		http.Error(w, "Unable to get weather", http.StatusInternalServerError)
+		//		return
+		//	}
+		//
+		//	weather := models.Weather{
+		//		City: we.Name,
+		//		Temperature: we.Main.Temp,
+		//		Humidity: we.Main.Humidity,
+		//		Illumination: rand.Intn(25),
+		//	}
+		//
+		//	data, err := json.Marshal(weather)
+		//	if err != nil {
+		//		app.Error(err)
+		//		http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
+		//		return
+		//	}
+		//
+		//	_, err = w.Write(data)
+		//	if err != nil {
+		//		app.Error(err)
+		//		http.Error(w, "Unable to send data", http.StatusInternalServerError)
+		//		return
+		//	}
+		//}
 	}
 }
 
