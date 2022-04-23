@@ -64,6 +64,7 @@ func (s *Storage) GetAllUserFlowers(userid string) ([]models.UserFlower, error) 
 			&flower.OwnerID,
 			&flower.Name,
 			&flower.Alive,
+			&flower.NeedWater,
 		)
 		if err != nil {
 			return []models.UserFlower{}, err
