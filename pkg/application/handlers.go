@@ -2,7 +2,6 @@ package application
 
 import (
 	"encoding/json"
-	"math"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -152,7 +151,7 @@ func Flower(app *Application) http.HandlerFunc {
 			G := 9.0
 
 			for _, v := range flowers {
-				v.WaterPerMonth = int(G * weather.Temperature * weather.Illumination / float64(weather.Humidity) * math.Sqrt(float64(v.ID)))
+				v.WaterPerMonth = int(G * weather.Temperature * weather.Illumination / float64(weather.Humidity) + float64(v.ID))
 				if v.WaterPerMonth > 16 {
 					v.WaterPerMonth = 16
 				}
