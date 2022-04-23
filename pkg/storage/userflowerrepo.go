@@ -80,7 +80,7 @@ func (s *Storage) GetUserFlower(flowerid string) (models.UserFlower, error) {
 
 	query := fmt.Sprintf(
 		`SELECT * FROM user_flowers
-				WHERE flowerid='%s'`,
+				WHERE flower_id='%s'`,
 				flowerid,
 	)
 

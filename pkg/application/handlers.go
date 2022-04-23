@@ -126,7 +126,7 @@ func GetAllUserFlowers(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
-		userid := r.URL.Query().Get("user_id")
+		userid := r.URL.Query().Get("owner_id")
 
 		flowers, err := app.DB().GetAllUserFlowers(userid)
 		if err != nil {
