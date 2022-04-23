@@ -70,7 +70,7 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 			weather.WaterPerMonth = 1
 		}
 
-		weather.WaterPerMonth -= int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
+		weather.WaterPerMonth -= int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.5)))
 
 		data, err := json.Marshal(weather)
 		if err != nil {
