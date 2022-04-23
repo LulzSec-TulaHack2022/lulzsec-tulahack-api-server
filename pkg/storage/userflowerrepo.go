@@ -8,7 +8,7 @@ import (
 
 func (s *Storage) AddFlower(flower models.UserFlower) error {
 	query := fmt.Sprintf(
-		`INSERT INTO user_flowers (catalog_id, flower_id, owner_id, name)
+		`INSERT INTO user_flowers (catalog_id, flower_id, owner_userid, name)
 				VALUES ('%v', '%s', '%s', '%s')`,
 				flower.CatalogID,
 				xid.New().String(),
