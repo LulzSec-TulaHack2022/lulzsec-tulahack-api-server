@@ -2,7 +2,7 @@ package models
 
 type UserFlower struct {
 	ID               int    `json:"-"`
-	NameNomenclature int    `json:"name_nomenclature"`
+	NameNomenclature string `json:"name_nomenclature"`
 	FlowerID         string `json:"id"`
 	OwnerID          string `json:"-"`
 	Name             string `json:"name"`
