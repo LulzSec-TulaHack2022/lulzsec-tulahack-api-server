@@ -11,14 +11,16 @@ import (
 )
 
 type Config struct {
-	Addr string
+	Addr         string
 	Parameters []string
+	OWMApiKey    string
 }
 
 func NewConfig() *Config {
 	return &Config{
 		Addr: fmt.Sprintf(":%v", os.Getenv("PORT")),
 		Parameters: []string{"low", "medium", "high", "any"},
+		OWMApiKey: "f0f8250a24f84c1bb693095488b4830a",
 	}
 }
 

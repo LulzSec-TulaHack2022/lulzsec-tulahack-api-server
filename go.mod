@@ -3,6 +3,8 @@ module tulahackTest
 go 1.16
 
 require (
+	github.com/briandowns/openweathermap v0.16.0 // indirect
+	github.com/kelvins/geocoder v0.0.0-20200113010004-f579500e9e27 // indirect
 	github.com/lib/pq v1.10.5 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
