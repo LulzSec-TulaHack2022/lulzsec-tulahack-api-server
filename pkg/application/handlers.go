@@ -2,6 +2,7 @@ package application
 
 import (
 	"encoding/json"
+	"math"
 	"math/rand"
 	"net/http"
 	"tulahackTest/models"
@@ -77,7 +78,7 @@ func CurrentWeather(app *Application) http.HandlerFunc {
 				weather.WaterPerMonth = 1
 			}
 
-			//weather.WaterPerMonth -= int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.5ф)))
+			weather.WaterPerMonth -= int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.5)))
 
 			data, err := json.Marshal(weather)
 			if err != nil {
@@ -122,7 +123,7 @@ func Flower(app *Application) http.HandlerFunc {
 		if r.Method == http.MethodDelete {
 			var dat map[string]string
 			err := json.NewDecoder(r.Body).Decode(&dat)
-			
+
 			err = app.DB().DeleteFlower(dat["flower_id"])
 			if err != nil {
 				app.Error(err)
