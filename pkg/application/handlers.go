@@ -133,9 +133,10 @@ func Flower(app *Application) http.HandlerFunc {
 		}
 
 		if r.Method == http.MethodGet {
-			userid := r.URL.Query().Get("owner_id")
+			var dat map[string]string
+			err := json.NewDecoder(r.Body).Decode(&dat)
 
-			flowers, err := app.DB().GetAllUserFlowers(userid)
+			flowers, err := app.DB().GetAllUserFlowers(dat["userid"])
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to get list of flowers", http.StatusBadRequest)
