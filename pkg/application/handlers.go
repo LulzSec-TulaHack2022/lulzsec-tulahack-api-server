@@ -56,3 +56,34 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 		}
 	}
 }
+
+func AddUser(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+	}
+}
+
+func DeleteUser(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+	}
+}
+
+func ModifyUser(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+	}
+}
+
+func AddFlower(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+	}
+}
+
+func DeleteFlower(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+	}
+}
+
