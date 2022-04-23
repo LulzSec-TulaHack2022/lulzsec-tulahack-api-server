@@ -151,11 +151,13 @@ func Flower(app *Application) http.HandlerFunc {
 			G := 9.0
 
 			for k, _ := range flowers {
-				flowers[k].WaterPerMonth = int(G * weather.Temperature * weather.Illumination / float64(weather.Humidity) - float64(flowers[k].ID))
-				if flowers[k].WaterPerMonth > 16 {
-					flowers[k].WaterPerMonth = 16
-				} else if flowers[k].WaterPerMonth < 2 {
-					flowers[k].WaterPerMonth = 2
+				if flowers[k].WaterPerMonth != 0 {
+					flowers[k].WaterPerMonth = int(G * weather.Temperature * weather.Illumination / float64(weather.Humidity) - float64(flowers[k].ID))
+					if flowers[k].WaterPerMonth > 16 {
+						flowers[k].WaterPerMonth = 16
+					} else if flowers[k].WaterPerMonth < 2 {
+						flowers[k].WaterPerMonth = 2
+					}
 				}
 			}
 
