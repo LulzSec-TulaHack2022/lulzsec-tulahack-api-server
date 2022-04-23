@@ -135,10 +135,9 @@ func Flower(app *Application) http.HandlerFunc {
 		}
 
 		if r.Method == http.MethodGet {
-			var dat map[string]string
-			err := json.NewDecoder(r.Body).Decode(&dat)
+			ownerid := r.URL.Query().Get("owner_id")
 
-			flowers, err := app.DB().GetAllUserFlowers(dat["owner_id"])
+			flowers, err := app.DB().GetAllUserFlowers(ownerid)
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to get list of flowers", http.StatusBadRequest)
@@ -156,6 +155,52 @@ func Flower(app *Application) http.HandlerFunc {
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to send data", http.StatusInternalServerError)
+				return
+			}
+		}
+
+	}
+}
+
+func Dead(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+
+		if r.Method == http.MethodGet {
+			flowerid := r.URL.Query().Get("flower_id")
+
+			err := app.DB().Dead(flowerid)
+			if err != nil {
+				app.Error(err)
+				http.Error(w, "Unable to kill plant", http.StatusBadRequest)
+				return
+			}
+		}
+	}
+}
+
+func Watered(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+
+		if r.Method == http.MethodGet {
+			flowerid := r.URL.Query().Get("flower_id")
+
+			err := app.DB().Watered(flowerid, true)
+			if err != nil {
+				app.Error(err)
+				http.Error(w, "Unable to water plant", http.StatusBadRequest)
+				return
+			}
+		}
+
+		if r.Method == http.MethodPut {
+			flowerid := r.URL.Query().Get("flower_id")
+
+			err := app.DB().Watered(flowerid, false)
+			if err != nil {
+				app.Error(err)
+				http.Error(w, "Unable to water plant", http.StatusBadRequest)
 				return
 			}
 		}
@@ -190,21 +235,4 @@ func Flower(app *Application) http.HandlerFunc {
 //		}
 //	}
 //}
-
-func Dead(app *Application) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		CORS(w)
-
-		flowerid := r.URL.Query().Get("flower_id")
-
-		err := app.DB().Dead(flowerid)
-		if err != nil {
-			app.Error(err)
-			http.Error(w, "Unable to modify flower data", http.StatusBadRequest)
-			return
-		}
-
-		w.WriteHeader(http.StatusOK)
-	}
-}
 

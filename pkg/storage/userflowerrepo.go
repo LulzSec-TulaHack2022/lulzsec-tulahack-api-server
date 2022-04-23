@@ -117,3 +117,20 @@ func (s *Storage) Dead(flowerid string) error {
 
 	return nil
 }
+
+func (s *Storage) Watered(flowerid string, value bool) error {
+	query := fmt.Sprintf(
+		`UPDATE user_flowers
+				SET need_water='%v'
+				WHERE flower_id='%s'`,
+		value,
+		flowerid,
+	)
+
+	_, err := s.db.Exec(query)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -31,8 +31,9 @@ func (app *Application) configureRouter() {
 	router.HandleFunc("/catalog", Catalog(app))
 	router.HandleFunc("/currentweather", CurrentWeather(app))
 	router.HandleFunc("/flower", Flower(app))
-	//router.HandleFunc("/getuserflower", GetUserFlower(app))
 	router.HandleFunc("/dead", Dead(app))
+	router.HandleFunc("/watered", Watered(app))
+	//router.HandleFunc("/getuserflower", GetUserFlower(app))
 
 	app.router = router
 }
