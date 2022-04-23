@@ -9,10 +9,6 @@ import (
 	"tulahackTest/pkg/location"
 )
 
-var (
-	G float64 = 1 / 9
-)
-
 func Catalog(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
@@ -156,6 +152,8 @@ func Flower(app *Application) http.HandlerFunc {
 				Humidity: we.Main.Humidity,
 				Illumination: rand.Intn(25),
 			}
+
+			var G float64 = 1 / 9
 
 			v := G * weather.Temperature * float64(weather.Illumination) / float64(weather.Humidity)
 			app.Info(v)
