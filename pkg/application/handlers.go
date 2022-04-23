@@ -140,12 +140,27 @@ func GetAllUserFlowers(app *Application) http.HandlerFunc {
 		//	return
 		//}
 
-		data, err := json.Marshal(map[string]interface{}{
-			"id": 5,
-			"name": "Анатолий",
-			"nameNomenclature": "Петуния",
-			"needWater": true,
-			"alive": true,
+		data, err := json.Marshal([]interface{}{map[string]interface{}{
+				"id": 5,
+				"name": "Анатолий",
+				"nameNomenclature": "Петуния",
+				"needWater": true,
+				"alive": true,
+			},
+			map[string]interface{}{
+				"id": 4,
+				"name": "Зинаида",
+				"nameNomenclature": "Петуния",
+				"needWater": true,
+				"alive": true,
+			},
+			map[string]interface{}{
+				"id": 3,
+				"name": "Антон",
+				"nameNomenclature": "Петуния",
+				"needWater": true,
+				"alive": true,
+			},
 		})
 
 		if err != nil {
