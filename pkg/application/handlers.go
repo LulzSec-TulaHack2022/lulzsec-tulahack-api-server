@@ -155,7 +155,9 @@ func Flower(app *Application) http.HandlerFunc {
 
 			app.Info(weather)
 
-			v := weather.Temperature * weather.Illumination / float64(weather.Humidity)
+			G := 9.0
+
+			v := G * weather.Temperature * weather.Illumination / float64(weather.Humidity)
 			//app.Info(v)
 			//
 			//if weather.Temperature > 24 {
