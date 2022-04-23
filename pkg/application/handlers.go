@@ -100,6 +100,14 @@ func AddFlower(app *Application) http.HandlerFunc {
 func DeleteFlower(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
+
+		flowerid := r.URL.Query().Get("flower_id")
+
+		err := app.DB().DeleteFlower(flowerid)
+		if err != nil {
+			app.Error(err)
+			http.Error(w, "Unable to delete flower", http.StatusBadRequest)
+		}
 	}
 }
 

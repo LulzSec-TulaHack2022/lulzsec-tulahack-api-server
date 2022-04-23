@@ -6,5 +6,5 @@ type UserFlower struct {
 	FlowerID  string `json:"flower_id"`
 	OwnerID   string `json:"owner_id"`
 	Name      string `json:"name"`
-	Alive     bool `json:"alive"`
+	Alive     bool `json:"alive,omitempty"`
 }

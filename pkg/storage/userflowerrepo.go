@@ -24,7 +24,19 @@ func (s *Storage) AddFlower(flower models.UserFlower) error {
 	return nil
 }
 
-func (s *Storage) DeleteFlower() {
+func (s *Storage) DeleteFlower(flowerid string) error {
+	query := fmt.Sprintf(
+		`DELETE FROM user_flowers
+				WHERE flower_id='%s'`,
+				flowerid,
+	)
+
+	_, err := s.db.Exec(query)
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }
 
