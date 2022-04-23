@@ -141,6 +141,7 @@ func Flower(app *Application) http.HandlerFunc {
 				return
 			}
 
+			app.Info(we.ForecastWeatherJson)
 			app.Info(we)
 
 			data, err := json.Marshal(flowers)

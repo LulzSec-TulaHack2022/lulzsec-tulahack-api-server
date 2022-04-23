@@ -22,7 +22,7 @@ func GetCurrentWeather(lat, long float64, key string) (*owm.CurrentWeatherData, 
 }
 
 func GetForecast(lat, long float64, key string) (*owm.ForecastWeatherData, error) {
-	w, err := owm.NewForecast("5", "C", "RU", key)
+	w, err := owm.NewForecast("16", "C", "RU", key)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func GetForecast(lat, long float64, key string) (*owm.ForecastWeatherData, error
 	err = w.DailyByCoordinates(&owm.Coordinates{
 		Longitude: long,
 		Latitude: lat,
-	}, 30)
+	}, 16)
 	if err != nil {
 		return nil, err
 	}
