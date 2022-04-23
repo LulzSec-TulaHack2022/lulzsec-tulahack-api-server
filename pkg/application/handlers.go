@@ -7,13 +7,13 @@ import (
 	"tulahackTest/models"
 )
 
-func GetFlower(app *Application) http.HandlerFunc {
+func GetCatalog(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
 		var flowers []models.Flower
 
-		flowers, err := app.DB().GetFlowers()
+		flowers, err := app.DB().Catalog()
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to find flower in catalog", http.StatusBadRequest)

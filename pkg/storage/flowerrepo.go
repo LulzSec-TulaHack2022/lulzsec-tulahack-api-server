@@ -4,10 +4,10 @@ import (
 	"tulahackTest/models"
 )
 
-func (s *Storage) GetFlowers() ([]models.Flower, error) {
+func (s *Storage) Catalog() ([]models.Flower, error) {
 	var flowers []models.Flower
 
-	query := "SELECT * FROM flowers"
+	query := "SELECT * FROM catalog"
 
 	rows, err := s.db.Query(query)
 
