@@ -40,3 +40,63 @@ func (s *Storage) DeleteFlower(flowerid string) error {
 
 }
 
+func (s *Storage) GetAllUserFlowers(userid string) ([]models.UserFlower, error) {
+	var flowers []models.UserFlower
+
+	query := fmt.Sprintf(
+		`SELECT * FROM user_flowers
+                WHERE owner_userid='%s'`,
+				userid,
+	)
+
+	rows, err := s.db.Query(query)
+	if err != nil {
+		return []models.UserFlower{}, err
+	}
+
+	for rows.Next() {
+		var flower models.UserFlower
+
+		err := rows.Scan(
+			&flower.ID,
+			&flower.CatalogID,
+			&flower.FlowerID,
+			&flower.OwnerID,
+			&flower.Name,
+			&flower.Alive,
+		)
+		if err != nil {
+			return []models.UserFlower{}, err
+		}
+
+		flowers = append(flowers, flower)
+	}
+
+	return flowers, nil
+}
+
+func (s *Storage) GetUserFlower(flowerid string) (models.UserFlower, error) {
+	var flower models.UserFlower
+
+	query := fmt.Sprintf(
+		`SELECT * FROM user_flowers
+				WHERE flowerid='%s'`,
+				flowerid,
+	)
+
+	err := s.db.QueryRow(query).Scan(
+		&flower.ID,
+		&flower.CatalogID,
+		&flower.FlowerID,
+		&flower.OwnerID,
+		&flower.Name,
+		&flower.Alive,
+	)
+
+	if err != nil {
+		return models.UserFlower{}, err
+	}
+
+	return flower, nil
+}
+
