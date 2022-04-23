@@ -36,15 +36,4 @@ func GetForecast(lat, long float64, key string) (*owm.ForecastWeatherData, error
 	}
 
 	return w, nil
-
-	//if weather.Temperature > 24 {
-	//	weather.WaterPerMonth = 8
-	//} else if weather.Temperature > 18 {
-	//	weather.WaterPerMonth = 6
-	//} else {
-	//	weather.WaterPerMonth = 3
-	//}
-	//
-	//weather.WaterPerMonth -= int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
-
 }

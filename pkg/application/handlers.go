@@ -2,6 +2,7 @@ package application
 
 import (
 	"encoding/json"
+	"math"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -134,14 +135,30 @@ func Flower(app *Application) http.HandlerFunc {
 				return
 			}
 
-			we, err := location.GetForecast(lat, long, app.Config().OWMApiKey)
+			we, err := location.GetCurrentWeather(lat, long, app.Config().OWMApiKey)
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to get forecast", http.StatusInternalServerError)
 				return
 			}
 
-			app.Info(we.ForecastWeatherJson)
+			weather := models.Weather{
+				City: we.Name,
+				Temperature: we.Main.Temp,
+				Humidity: we.Main.Humidity,
+				Illumination: rand.Intn(41) + 60,
+			}
+
+			if weather.Temperature > 24 {
+				weather.WaterPerMonth = 8
+			} else if weather.Temperature > 18 {
+				weather.WaterPerMonth = 6
+			} else {
+				weather.WaterPerMonth = 3
+			}
+
+			weather.WaterPerMonth += int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
+
 			app.Info(we)
 
 			data, err := json.Marshal(flowers)
