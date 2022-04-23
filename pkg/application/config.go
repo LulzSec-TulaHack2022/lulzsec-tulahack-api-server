@@ -28,12 +28,10 @@ func (app *Application) configureRouter() {
 	router := http.NewServeMux()
 
 	// Маршруты API
-	router.HandleFunc("/getcatalog", GetCatalog(app))
-	router.HandleFunc("/getcurrentweather", GetCurrentWeather(app))
-	router.HandleFunc("/addflower", AddFlower(app))
-	router.HandleFunc("/deleteflower", DeleteFlower(app))
-	router.HandleFunc("/getalluserflowers", GetAllUserFlowers(app))
-	router.HandleFunc("/getuserflower", GetUserFlower(app))
+	router.HandleFunc("/catalog", Catalog(app))
+	router.HandleFunc("/currentweather", CurrentWeather(app))
+	router.HandleFunc("/flower", Flower(app))
+	//router.HandleFunc("/getuserflower", GetUserFlower(app))
 	router.HandleFunc("/dead", Dead(app))
 
 	app.router = router
