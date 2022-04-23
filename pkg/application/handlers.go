@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"tulahackTest/models"
 	"tulahackTest/pkg/location"
 )
@@ -38,7 +39,10 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
 
-		we, err := location.GetWeather(54.204838, 37.618492, app.Config().OWMApiKey)
+		lat, _ := strconv.ParseFloat(r.URL.Query().Get("lat"), 64)
+		long, _:= strconv.ParseFloat(r.URL.Query().Get("long"), 64)
+
+		we, err := location.GetWeather(lat, long, app.Config().OWMApiKey)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to get weather", http.StatusInternalServerError)
@@ -49,7 +53,7 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 			City: we.Name,
 			Temperature: we.Main.Temp,
 			Humidity: we.Main.Humidity,
-			Illumination: rand.Intn(101),
+			Illumination: rand.Intn(41) + 60,
 		}
 
 		data, err := json.Marshal(weather)
