@@ -9,6 +9,10 @@ import (
 	"tulahackTest/pkg/location"
 )
 
+var (
+	G float64 = 1 / 9
+)
+
 func Catalog(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)
@@ -65,7 +69,7 @@ func CurrentWeather(app *Application) http.HandlerFunc {
 				City: we.Name,
 				Temperature: we.Main.Temp,
 				Humidity: we.Main.Humidity,
-				Illumination: rand.Intn(41) + 60,
+				Illumination: rand.Intn(25),
 			}
 
 			data, err := json.Marshal(weather)
@@ -146,14 +150,15 @@ func Flower(app *Application) http.HandlerFunc {
 				return
 			}
 
+			weather := models.Weather{
+				City: we.Name,
+				Temperature: we.Main.Temp,
+				Humidity: we.Main.Humidity,
+				Illumination: rand.Intn(25),
+			}
 
-
-			//weather := models.Weather{
-			//	City: we.Name,
-			//	Temperature: we.Main.Temp,
-			//	Humidity: we.Main.Humidity,
-			//	Illumination: rand.Intn(41) + 60,
-			//}
+			v := G * weather.Temperature * float64(weather.Illumination) / float64(weather.Humidity)
+			app.Info(v)
 			//
 			//if weather.Temperature > 24 {
 			//	weather.WaterPerMonth = 8
@@ -165,7 +170,6 @@ func Flower(app *Application) http.HandlerFunc {
 
 			//weather.WaterPerMonth += int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
 			//
-			app.Info(we.Main.Temp)
 
 			rsp := &Response{
 				Flowers: flowers,
