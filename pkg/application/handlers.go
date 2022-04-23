@@ -150,12 +150,12 @@ func Flower(app *Application) http.HandlerFunc {
 				City: we.Name,
 				Temperature: we.Main.Temp,
 				Humidity: we.Main.Humidity,
-				Illumination: rand.Intn(25),
+				Illumination: rand.Float64() * 24,
 			}
 
 			var G float64 = 1 / 9
 
-			v := G * weather.Temperature * float64(weather.Illumination) / float64(weather.Humidity)
+			var v float64 = G * weather.Temperature * weather.Illumination / float64(weather.Humidity)
 			app.Info(v)
 			//
 			//if weather.Temperature > 24 {
