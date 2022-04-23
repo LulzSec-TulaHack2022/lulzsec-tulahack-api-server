@@ -19,18 +19,21 @@ func GetCatalog(app *Application) http.HandlerFunc {
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to find flower in catalog", http.StatusBadRequest)
+			return
 		}
 
 		data, err := json.Marshal(flowers)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
+			return
 		}
 
 		_, err = w.Write(data)
 		if err != nil {
 			app.Error(err)
 			http.Error(w, "Unable to send data", http.StatusInternalServerError)
+			return
 		}
 	}
 }
@@ -55,6 +58,18 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 			Humidity: we.Main.Humidity,
 			Illumination: rand.Intn(41) + 60,
 		}
+
+		if weather.Temperature > 24 {
+			weather.WaterPerMonth = 6
+		} else if weather.Temperature > 18 {
+			weather.WaterPerMonth = 4
+		} else if weather.Temperature > 15 {
+			weather.WaterPerMonth = 2
+		} else {
+			weather.WaterPerMonth = 1
+		}
+
+		weather.WaterPerMonth -= (weather.WaterPerMonth - 1) * int(float64(weather.Humidity) / 100 - 0.5)
 
 		data, err := json.Marshal(weather)
 		if err != nil {
@@ -139,42 +154,6 @@ func GetAllUserFlowers(app *Application) http.HandlerFunc {
 			http.Error(w, "Unable to send data", http.StatusInternalServerError)
 			return
 		}
-
-		//data, err := json.Marshal([]interface{}{map[string]interface{}{
-		//		"id": 5,
-		//		"name": "Анатолий",
-		//		"nameNomenclature": "Петуния",
-		//		"needWater": true,
-		//		"alive": true,
-		//	},
-		//	map[string]interface{}{
-		//		"id": 4,
-		//		"name": "Зинаида",
-		//		"nameNomenclature": "Петуния",
-		//		"needWater": true,
-		//		"alive": true,
-		//	},
-		//	map[string]interface{}{
-		//		"id": 3,
-		//		"name": "Антон",
-		//		"nameNomenclature": "Петуния",
-		//		"needWater": true,
-		//		"alive": true,
-		//	},
-		//})
-		//
-		//if err != nil {
-		//	app.Error(err)
-		//	http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
-		//	return
-		//}
-		//
-		//_, err = w.Write(data)
-		//if err != nil {
-		//	app.Error(err)
-		//	http.Error(w, "Unable to send data", http.StatusInternalServerError)
-		//	return
-		//}
 	}
 }
 
