@@ -159,7 +159,7 @@ func Flower(app *Application) http.HandlerFunc {
 
 			weather.WaterPerMonth += int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
 
-			app.Info(we)
+			app.Info(weather)
 
 			data, err := json.Marshal(flowers)
 			if err != nil {
