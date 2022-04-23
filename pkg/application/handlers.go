@@ -69,13 +69,11 @@ func CurrentWeather(app *Application) http.HandlerFunc {
 			}
 
 			if weather.Temperature > 24 {
-				weather.WaterPerMonth = 6
+				weather.WaterPerMonth = 8
 			} else if weather.Temperature > 18 {
-				weather.WaterPerMonth = 4
-			} else if weather.Temperature > 15 {
-				weather.WaterPerMonth = 2
+				weather.WaterPerMonth = 6
 			} else {
-				weather.WaterPerMonth = 1
+				weather.WaterPerMonth = 3
 			}
 
 			weather.WaterPerMonth -= int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
