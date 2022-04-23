@@ -186,7 +186,7 @@ func Watered(app *Application) http.HandlerFunc {
 		if r.Method == http.MethodGet {
 			flowerid := r.URL.Query().Get("flower_id")
 
-			err := app.DB().Watered(flowerid, true)
+			err := app.DB().Watered(flowerid, false)
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to water plant", http.StatusBadRequest)
@@ -197,7 +197,7 @@ func Watered(app *Application) http.HandlerFunc {
 		if r.Method == http.MethodPut {
 			flowerid := r.URL.Query().Get("flower_id")
 
-			err := app.DB().Watered(flowerid, false)
+			err := app.DB().Watered(flowerid, true)
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to water plant", http.StatusBadRequest)
