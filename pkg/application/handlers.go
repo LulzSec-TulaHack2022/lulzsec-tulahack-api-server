@@ -155,11 +155,7 @@ func Flower(app *Application) http.HandlerFunc {
 
 			app.Info(weather)
 
-			//var G float64 = 1 / 9
-
-
-
-			//var v float64 = G * weather.Temperature * weather.Illumination / float64(weather.Humidity)
+			v := weather.Temperature * weather.Illumination / float64(weather.Humidity)
 			//app.Info(v)
 			//
 			//if weather.Temperature > 24 {
@@ -175,7 +171,7 @@ func Flower(app *Application) http.HandlerFunc {
 
 			rsp := &Response{
 				Flowers: flowers,
-				WaterPerMonth: 5,
+				WaterPerMonth: int(v),
 			}
 
 			data, err := json.Marshal(rsp)
