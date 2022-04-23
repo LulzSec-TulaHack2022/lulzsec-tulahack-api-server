@@ -2,6 +2,7 @@ package application
 
 import (
 	"encoding/json"
+	"math"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -123,11 +124,6 @@ func Flower(app *Application) http.HandlerFunc {
 		}
 
 		if r.Method == http.MethodGet {
-			type Response struct {
-				Flowers       []models.UserFlower `json:"flowers"`
-				WaterPerMonth int				  `json:"water_per_month"`
-			}
-
 			ownerid := r.URL.Query().Get("owner_id")
 			lat, err := strconv.ParseFloat(r.URL.Query().Get("latitude"), 64)
 			long, err := strconv.ParseFloat(r.URL.Query().Get("longitude"), 64)
@@ -153,11 +149,15 @@ func Flower(app *Application) http.HandlerFunc {
 				Illumination: rand.Float64() * 24,
 			}
 
-			app.Info(weather)
-
 			G := 9.0
 
-			v := G * weather.Temperature * weather.Illumination / float64(weather.Humidity)
+			for _, v := range flowers {
+				v.WaterPerMonth = int(G * weather.Temperature * weather.Illumination / float64(weather.Humidity) * math.Log(float64(v.ID)))
+				if v.WaterPerMonth > 16 {
+					v.WaterPerMonth = 16
+				}
+			}
+			
 			//app.Info(v)
 			//
 			//if weather.Temperature > 24 {
@@ -171,12 +171,7 @@ func Flower(app *Application) http.HandlerFunc {
 			//weather.WaterPerMonth += int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
 			//
 
-			rsp := &Response{
-				Flowers: flowers,
-				WaterPerMonth: int(v),
-			}
-
-			data, err := json.Marshal(rsp)
+			data, err := json.Marshal(flowers)
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to marshal data", http.StatusInternalServerError)
