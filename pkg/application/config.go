@@ -31,6 +31,8 @@ func (app *Application) configureRouter() {
 	router.HandleFunc("/adduser", AddUser(app))
 	router.HandleFunc("/addflower", AddFlower(app))
 	router.HandleFunc("/deleteflower", DeleteFlower(app))
+	router.HandleFunc("/getalluserflowers", GetAllUserFlowers(app))
+	router.HandleFunc("/getuserflower", GetUserFlower(app))
 
 	app.router = router
 }
