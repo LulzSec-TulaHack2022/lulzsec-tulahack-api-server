@@ -33,6 +33,7 @@ func (app *Application) configureRouter() {
 	router.HandleFunc("/deleteflower", DeleteFlower(app))
 	router.HandleFunc("/getalluserflowers", GetAllUserFlowers(app))
 	router.HandleFunc("/getuserflower", GetUserFlower(app))
+	router.HandleFunc("/dead", Dead(app))
 
 	app.router = router
 }

@@ -180,3 +180,20 @@ func GetUserFlower(app *Application) http.HandlerFunc {
 	}
 }
 
+func Dead(app *Application) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		CORS(w)
+
+		flowerid := r.URL.Query().Get("flower_id")
+
+		err := app.DB().Dead(flowerid)
+		if err != nil {
+			app.Error(err)
+			http.Error(w, "Unable to modify flower data", http.StatusBadRequest)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+	}
+}
+

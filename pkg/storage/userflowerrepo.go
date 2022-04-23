@@ -100,3 +100,18 @@ func (s *Storage) GetUserFlower(flowerid string) (models.UserFlower, error) {
 	return flower, nil
 }
 
+func (s *Storage) Dead(flowerid string) error {
+	query := fmt.Sprintf(
+		`UPDATE user_flowers
+				SET alive='false'
+				WHERE flower_id='%s'`,
+				flowerid,
+	)
+
+	_, err := s.db.Exec(query)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
