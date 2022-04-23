@@ -2,9 +2,9 @@ package application
 
 import (
 	"encoding/json"
-	"math"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"tulahackTest/models"
 	"tulahackTest/pkg/location"
 )
@@ -54,7 +54,7 @@ func CurrentWeather(app *Application) http.HandlerFunc {
 				return
 			}
 
-			we, err := location.GetWeather(loc["latitude"], loc["longitude"], app.Config().OWMApiKey)
+			we, err := location.GetCurrentWeather(loc["latitude"], loc["longitude"], app.Config().OWMApiKey)
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to get weather", http.StatusInternalServerError)
@@ -67,16 +67,6 @@ func CurrentWeather(app *Application) http.HandlerFunc {
 				Humidity: we.Main.Humidity,
 				Illumination: rand.Intn(41) + 60,
 			}
-
-			if weather.Temperature > 24 {
-				weather.WaterPerMonth = 8
-			} else if weather.Temperature > 18 {
-				weather.WaterPerMonth = 6
-			} else {
-				weather.WaterPerMonth = 3
-			}
-
-			weather.WaterPerMonth -= int(float64(weather.WaterPerMonth - 1) * (math.Round(float64(weather.Humidity) / 100 - 0.2)))
 
 			data, err := json.Marshal(weather)
 			if err != nil {
@@ -134,6 +124,8 @@ func Flower(app *Application) http.HandlerFunc {
 
 		if r.Method == http.MethodGet {
 			ownerid := r.URL.Query().Get("owner_id")
+			lat, err := strconv.ParseFloat(r.URL.Query().Get("latitude"), 64)
+			long, err := strconv.ParseFloat(r.URL.Query().Get("longitude"), 64)
 
 			flowers, err := app.DB().GetAllUserFlowers(ownerid)
 			if err != nil {
@@ -141,6 +133,15 @@ func Flower(app *Application) http.HandlerFunc {
 				http.Error(w, "Unable to get list of flowers", http.StatusBadRequest)
 				return
 			}
+
+			we, err := location.GetForecast(lat, long, app.Config().OWMApiKey)
+			if err != nil {
+				app.Error(err)
+				http.Error(w, "Unable to get forecast", http.StatusInternalServerError)
+				return
+			}
+
+			app.Info(we)
 
 			data, err := json.Marshal(flowers)
 			if err != nil {
