@@ -8,9 +8,9 @@ import (
 
 func (s *Storage) AddFlower(flower models.UserFlower) error {
 	query := fmt.Sprintf(
-		`INSERT INTO user_flowers (catalog_id, flower_id, owner_userid, name)
+		`INSERT INTO user_flowers (name_nomenclature, flower_id, owner_userid, name)
 				VALUES ('%v', '%s', '%s', '%s')`,
-				flower.CatalogID,
+				flower.NameNomenclature,
 				xid.New().String(),
 				flower.OwnerID,
 				flower.Name,
@@ -59,7 +59,7 @@ func (s *Storage) GetAllUserFlowers(userid string) ([]models.UserFlower, error) 
 
 		err := rows.Scan(
 			&flower.ID,
-			&flower.CatalogID,
+			&flower.NameNomenclature,
 			&flower.FlowerID,
 			&flower.OwnerID,
 			&flower.Name,
@@ -87,11 +87,12 @@ func (s *Storage) GetUserFlower(flowerid string) (models.UserFlower, error) {
 
 	err := s.db.QueryRow(query).Scan(
 		&flower.ID,
-		&flower.CatalogID,
+		&flower.NameNomenclature,
 		&flower.FlowerID,
 		&flower.OwnerID,
 		&flower.Name,
 		&flower.Alive,
+		&flower.NeedWater,
 	)
 
 	if err != nil {
