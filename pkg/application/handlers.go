@@ -120,9 +120,10 @@ func Flower(app *Application) http.HandlerFunc {
 		}
 
 		if r.Method == http.MethodDelete {
-			flowerid := r.URL.Query().Get("flower_id")
-
-			err := app.DB().DeleteFlower(flowerid)
+			var dat map[string]string
+			err := json.NewDecoder(r.Body).Decode(&dat)
+			
+			err = app.DB().DeleteFlower(dat["flower_id"])
 			if err != nil {
 				app.Error(err)
 				http.Error(w, "Unable to delete flower", http.StatusBadRequest)
