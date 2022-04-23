@@ -57,30 +57,6 @@ func GetCurrentWeather(app *Application) http.HandlerFunc {
 	}
 }
 
-func AddUser(app *Application) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		CORS(w)
-
-		var user models.User
-
-		err := json.NewDecoder(r.Body).Decode(&user)
-		if err != nil {
-			app.Error(err)
-			http.Error(w, "Unable to get data", http.StatusBadRequest)
-			return
-		}
-
-		err = app.DB().AddUser(user)
-		if err != nil {
-			app.Error(err)
-			http.Error(w, "Unable to create new user", http.StatusInternalServerError)
-			return
-		}
-
-		w.WriteHeader(http.StatusOK)
-	}
-}
-
 func AddFlower(app *Application) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		CORS(w)

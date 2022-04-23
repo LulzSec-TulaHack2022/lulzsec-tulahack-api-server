@@ -28,7 +28,6 @@ func (app *Application) configureRouter() {
 	// Маршруты API
 	router.HandleFunc("/getcatalog", GetCatalog(app))
 	router.HandleFunc("/getcurrentweather", GetCurrentWeather(app))
-	router.HandleFunc("/adduser", AddUser(app))
 	router.HandleFunc("/addflower", AddFlower(app))
 	router.HandleFunc("/deleteflower", DeleteFlower(app))
 	router.HandleFunc("/getalluserflowers", GetAllUserFlowers(app))
